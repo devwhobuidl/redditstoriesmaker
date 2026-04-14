@@ -91,8 +91,29 @@ def fast_concat_background(video_files, target_duration, output_path, resolution
     subprocess.run(cmd, check=True)
     return output_path
 
-def assemble_final_video(story_text, bg_clips_paths, narration_path, music_path, music_volume, captions_data, output_path, resolution=(1080, 1920), caption_style="Classic Reddit", caption_size=70, fast_render=True):
+def detect_hardware_acceleration():
+    """Detects available FFmpeg hardware encoders on Windows/Linux."""
     ffmpeg_bin = os.environ.get("FFMPEG_BINARY", "ffmpeg")
+    try:
+        # Check for NVENC (NVIDIA)
+        result = subprocess.run([ffmpeg_bin, "-encoders"], capture_output=True, text=True)
+        if "h264_nvenc" in result.stdout:
+            return "h264_nvenc"
+        # Check for QSV (Intel)
+        if "h264_qsv" in result.stdout:
+            return "h264_qsv"
+    except:
+        pass
+    return "libx264" # Fallback
+
+def assemble_final_video(story_text, bg_clips_paths, narration_path, music_path, music_volume, captions_data, output_path, resolution=(1080, 1920), caption_style="Classic Reddit", caption_size=70, fast_render=True):
+    """
+    ULTRA-FAST FFmpeg Pipeline (Microsoft Edition).
+    """
+    ffmpeg_bin = os.environ.get("FFMPEG_BINARY", "ffmpeg")
+    encoder = detect_hardware_acceleration()
+    print(f"DEBUG: Using encoder: {encoder}")
+    
     narration_clip = AudioFileClip(narration_path)
     final_dur = narration_clip.duration
     narration_clip.close()
@@ -119,6 +140,6 @@ def assemble_final_video(story_text, bg_clips_paths, narration_path, music_path,
     filter_complex += [f"[0:v]subtitles='{escaped_ass}'[v_out]"]
     cmd += ["-filter_complex", ";".join(filter_complex)]
     cmd += ["-map", "[v_out]", "-map", audio_map]
-    cmd += ["-c:v", "libx264", "-preset", "ultrafast", "-crf", "22", "-c:a", "aac", "-b:a", "192k", "-t", str(final_dur), output_path]
+    cmd += ["-c:v", encoder, "-preset", "ultrafast" if encoder == "libx264" else "default", "-crf", "22", "-c:a", "aac", "-b:a", "192k", "-t", str(final_dur), output_path]
     subprocess.run(cmd, check=True)
     return output_path
