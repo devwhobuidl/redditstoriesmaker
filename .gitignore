@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+models/
+voices/
+videos/
+music/
+outputs/
+temp/
+bin/
+config_flet.json
+config.json
+.DS_Store
