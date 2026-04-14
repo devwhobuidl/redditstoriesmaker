@@ -1,6 +1,27 @@
-# 🤖 RedditStoryVideoMaker v1.5.0
+# 🤖 Microsoft Story Maker (Reddit Edition)
 
-Your 100% local, high-speed Reddit video generator.
+Your premium, high-speed Reddit video generator with **Microsoft Azure AI Integration** and **Hardware Acceleration**.
+
+---
+
+## 💎 Microsoft Edition Enhancements
+
+- **Azure Cloud Voices**: Integration with Microsoft Azure Speech SDK for premium, human-like neural narrations.
+- **Hardware Acceleration**: Automatic performance boost using NVENC (NVIDIA) or QSV (Intel) for near-instant rendering on Windows.
+- **Fluent Design**: A sleek, modern UI inspired by Windows 11 aesthetics.
+
+---
+
+## 📥 Download the App (Windows)
+
+You don't need to install Python to use this app. You can download the pre-built standalone version:
+
+1. Go to the **[Actions]** tab in this GitHub repository.
+2. Select the latest run of the **"Build Microsoft Edition (Windows)"** workflow.
+3. Scroll down to **Artifacts** and download the `MicrosoftStoryMaker_Windows` ZIP file.
+4. Extract the ZIP and run `MicrosoftStoryMaker.exe`.
+
+---
 
 ## 📁 How to Use Your Own Assets
 
@@ -14,11 +35,9 @@ Your 100% local, high-speed Reddit video generator.
 - **Precise Whisper AI**: Toggle this on if you want word-for-word accuracy. (Requires an initial ~150MB download).
 
 ## 🛠️ One-Time Setup
-On the first run, the app will download:
+On the first run (if using local voices), the app will download:
 - **Whisper Tiny Model** (~150MB) for precise captions.
 - **Piper TTS Base Voice** (~50MB) for high-quality narration.
 
-After this, the app functions **100% offline**.
-
-## ✨ Pro Tip
-Use the **"Refresh Assets"** button in the UI if you add new videos or music while the app is running!
+---
+*Built with ❤️ for the Microsoft Ecosystem.*
